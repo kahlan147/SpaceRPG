@@ -35,7 +35,7 @@ public class InteractableView : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward*2), out hit))
         {
-            HighLightedInteractable = hit.transform.gameObject.GetComponent<IInteractable>();
+            HighLightedInteractable = CheckForInteractable(hit.transform.gameObject);
             if (HighLightedInteractable != null)
             {
                 UIInteractableText.text = HighLightedInteractable.getInteractableName();
@@ -45,7 +45,7 @@ public class InteractableView : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        IInteractable Interactable = other.gameObject.GetComponent<IInteractable>();
+        IInteractable Interactable = CheckForInteractable(gameObject);
         if (Interactable != null)
         {
             HighLightedInteractable = null;
@@ -53,4 +53,16 @@ public class InteractableView : MonoBehaviour {
         }
     }
 
+    private IInteractable CheckForInteractable(GameObject gameobject)
+    {
+        IInteractable interactable = null;
+        interactable = gameObject.GetComponent<IInteractable>();
+
+        if (interactable == null)
+        {
+            interactable = gameobject.GetComponentInParent<IInteractable>();
+        }
+
+        return interactable;
+    }
 }

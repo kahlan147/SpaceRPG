@@ -22,7 +22,6 @@ public class Door : MonoBehaviour {
 
     public void Interact()
     {
-        Debug.Log("interact");
         if (!Busy)
         {
             if (Condition)
@@ -41,14 +40,10 @@ public class Door : MonoBehaviour {
     private IEnumerator MoveToPosition(Transform position)
     {
         Busy = true;
-        /*while (SamePosition(this.transform.position,position.position))
+        while (!SamePosition(this.transform.position,position.position))
         {
         this.transform.position = Vector3.MoveTowards(this.transform.position, position.position, 0.2f);
-        }*/
-        for (int x = 0; x < 100; x++)
-        {
-            this.transform.position = Vector3.MoveTowards(this.transform.position, position.position, 0.2f);
-                yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.5f);
         }
 
         Busy = false;
@@ -69,8 +64,6 @@ public class Door : MonoBehaviour {
         {
             return false;
         }
-        Debug.Log("1: " + position1);
-        Debug.Log("2: " + position2);
         return true;
     }
 }
